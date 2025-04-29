@@ -7,7 +7,7 @@ namespace GameDevTV.RTS.Player
 {
     public class PlayerInput : MonoBehaviour
     {
-        [SerializeField] Transform cameraTarget;
+        [SerializeField] Rigidbody cameraTarget;
         [SerializeField] CinemachineCamera cinemachineCamera;
         [SerializeField] CameraConfig cameraConfig;
 
@@ -138,8 +138,7 @@ namespace GameDevTV.RTS.Player
             Vector2 moveAmount = GetKeyboardMoveAmount();
             moveAmount += GetMouseMoveAmount();
 
-            moveAmount *= Time.deltaTime;
-            cameraTarget.position += new Vector3(moveAmount.x, 0, moveAmount.y);
+            cameraTarget.linearVelocity = new Vector3(moveAmount.x, 0, moveAmount.y);
         }
 
 
