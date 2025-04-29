@@ -9,11 +9,14 @@ public class PlayerInput : MonoBehaviour
     [SerializeField] CinemachineCamera cinemachineCamera;
     [SerializeField] float keyboardPanSpeed = 5;
     [SerializeField] float zoomSpeed = 1;
+    [SerializeField] float rotationSpeed = 1;
     [SerializeField] float minZoomDistance = 7.5f;
 
     CinemachineFollow cinemachineFollow;
     float zoomStartTime;
+    float rotationStartTime;
     Vector3 startingFollowOffset;
+    float maxRotationAmount;
 
 
     void Awake()
@@ -24,6 +27,7 @@ public class PlayerInput : MonoBehaviour
         }
 
         startingFollowOffset = cinemachineFollow.FollowOffset;
+        maxRotationAmount = Mathf.Abs(cinemachineFollow.FollowOffset.z);
     }
 
 
@@ -31,6 +35,59 @@ public class PlayerInput : MonoBehaviour
     {
         HandlePanning();
         HandleZooming();
+        HandleRotation();
+    }
+
+
+    void HandleRotation()
+    {
+        if (ShouldSetRotationStartTime())
+        {
+            rotationStartTime = Time.time;
+        }
+
+        float rotationTime = Mathf.Clamp01((Time.time - rotationStartTime) * rotationSpeed);
+        Vector3 targetFollowOffset;
+
+        if (Keyboard.current.pageDownKey.isPressed)
+        {
+            targetFollowOffset = new Vector3(
+                maxRotationAmount,
+                cinemachineFollow.FollowOffset.y,
+                0
+                );
+        }
+        else if (Keyboard.current.pageUpKey.isPressed)
+        {
+            targetFollowOffset = new Vector3(
+                -maxRotationAmount,
+                cinemachineFollow.FollowOffset.y,
+                0
+                );
+        }
+        else
+        {
+            targetFollowOffset = new Vector3(
+                startingFollowOffset.x,
+                cinemachineFollow.FollowOffset.y,
+                startingFollowOffset.z
+                );
+        }
+
+        cinemachineFollow.FollowOffset = Vector3.Slerp(
+            cinemachineFollow.FollowOffset,
+            targetFollowOffset,
+            rotationTime
+            );
+    }
+
+
+    bool ShouldSetRotationStartTime()
+    {
+        return Keyboard.current.pageUpKey.wasPressedThisFrame 
+            || Keyboard.current.pageDownKey.wasPressedThisFrame
+            || Keyboard.current.pageUpKey.wasReleasedThisFrame
+            || Keyboard.current.pageDownKey.wasReleasedThisFrame;
     }
 
 
@@ -71,7 +128,8 @@ public class PlayerInput : MonoBehaviour
 
     bool ShouldSetZoomStartTime()
     {
-        return Keyboard.current.endKey.wasPressedThisFrame || Keyboard.current.endKey.wasReleasedThisFrame;
+        return Keyboard.current.endKey.wasPressedThisFrame 
+            || Keyboard.current.endKey.wasReleasedThisFrame;
     }
 
 
