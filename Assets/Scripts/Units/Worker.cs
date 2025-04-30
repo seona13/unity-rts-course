@@ -6,9 +6,8 @@ using UnityEngine.Rendering.Universal;
 namespace GameDevTV.RTS.Units
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Worker : MonoBehaviour, ISelectable
+    public class Worker : MonoBehaviour, ISelectable, IMovable
     {
-        [SerializeField] Transform target;
         [SerializeField] DecalProjector decalProjector;
 
         NavMeshAgent agent;
@@ -16,15 +15,6 @@ namespace GameDevTV.RTS.Units
         void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
-        }
-
-
-        void Update()
-        {
-            if (target != null)
-            {
-                agent.SetDestination(target.position);
-            }
         }
 
 
@@ -39,11 +29,16 @@ namespace GameDevTV.RTS.Units
 
         public void Select()
         {
-            Debug.Log("HERE");
             if (decalProjector != null)
             {
                 decalProjector.gameObject.SetActive(true);
             }
+        }
+
+
+        public void MoveTo(Vector3 position)
+        {
+            agent.SetDestination(position);
         }
     }
 }
