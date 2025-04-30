@@ -1,3 +1,5 @@
+using GameDevTV.RTS.EventBus;
+using GameDevTV.RTS.Events;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
@@ -33,6 +35,8 @@ namespace GameDevTV.RTS.Units
             {
                 decalProjector.gameObject.SetActive(true);
             }
+
+            Bus<UnitSelectedEvent>.Raise(new UnitSelectedEvent(this));
         }
 
 

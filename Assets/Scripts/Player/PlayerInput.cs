@@ -1,3 +1,5 @@
+using GameDevTV.RTS.EventBus;
+using GameDevTV.RTS.Events;
 using GameDevTV.RTS.Units;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -35,6 +37,25 @@ namespace GameDevTV.RTS.Player
 
             startingFollowOffset = cinemachineFollow.FollowOffset;
             maxRotationAmount = Mathf.Abs(cinemachineFollow.FollowOffset.z);
+
+            Bus<UnitSelectedEvent>.OnEvent += HandleUnitSelected;
+        }
+
+
+        void OnDestroy()
+        {
+            Bus<UnitSelectedEvent>.OnEvent -= HandleUnitSelected;
+        }
+
+
+        void HandleUnitSelected(UnitSelectedEvent evt) 
+        {
+            if (selectedUnit != null)
+            {
+                selectedUnit.Deselect();
+            }
+
+            selectedUnit = evt.Unit;
         }
 
 
@@ -114,7 +135,6 @@ namespace GameDevTV.RTS.Player
                 && hit.collider.TryGetComponent(out ISelectable selectable))
                 {
                     selectable.Select();
-                    selectedUnit = selectable;
                 }
             } 
         }
