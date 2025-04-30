@@ -14,7 +14,9 @@ namespace GameDevTV.RTS.Player
         [SerializeField] CameraConfig cameraConfig;
         [SerializeField] LayerMask selectableUnitsLayers;
         [SerializeField] LayerMask floorLayers;
+        [SerializeField] RectTransform selectionBox;
 
+        Vector2 startingMousePosition;
 
         CinemachineFollow cinemachineFollow;
         float zoomStartTime;
@@ -43,6 +45,40 @@ namespace GameDevTV.RTS.Player
             HandleRotation();
             HandleLeftClick();
             HandleRightClick();
+            HandleDragSelect();
+        }
+
+
+        void HandleDragSelect()
+        {
+            if (selectionBox == null) { return; }
+
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                selectionBox.gameObject.SetActive(true);
+                startingMousePosition = Mouse.current.position.ReadValue();
+            }
+            else if (Mouse.current.leftButton.isPressed
+                && Mouse.current.leftButton.wasPressedThisFrame == false)
+            {
+                ResizeSelectionBox();
+            }
+            else if (Mouse.current.leftButton.wasReleasedThisFrame)
+            {
+                selectionBox.gameObject.SetActive(false);
+            }
+        }
+
+
+        void ResizeSelectionBox()
+        {
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+
+            float width = mousePosition.x - startingMousePosition.x;
+            float height = mousePosition.y - startingMousePosition.y;
+
+            selectionBox.anchoredPosition = startingMousePosition + new Vector2(width / 2, height / 2);
+            selectionBox.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         }
 
 
