@@ -78,36 +78,59 @@ namespace GameDevTV.RTS.Player
 
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                selectionBox.sizeDelta = Vector2.zero;
-                selectionBox.gameObject.SetActive(true);
-                startingMousePosition = Mouse.current.position.ReadValue();
-                addedUnits.Clear();
+                HandleMouseDown();
             }
             else if (Mouse.current.leftButton.isPressed
                 && Mouse.current.leftButton.wasPressedThisFrame == false)
             {
-                Bounds selectBoxBounds = ResizeSelectionBox();
-                foreach (AbstractUnit unit in aliveUnits)
-                {
-                    Vector2 unitPosition = camera.WorldToScreenPoint(unit.transform.position);
-
-                    if (selectBoxBounds.Contains(unitPosition))
-                    {
-                        addedUnits.Add(unit);
-                    }
-                }
+                HandleMouseDrag();
             }
             else if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
-                DeselectAllUnits();
-
-                foreach (AbstractUnit unit in addedUnits)
-                {
-                    unit.Select();
-                }
-
-                selectionBox.gameObject.SetActive(false);
+                HandleMouseUp();
             }
+        }
+
+
+        void HandleMouseDown()
+        {
+            selectionBox.sizeDelta = Vector2.zero;
+            selectionBox.gameObject.SetActive(true);
+            startingMousePosition = Mouse.current.position.ReadValue();
+            addedUnits.Clear();
+        }
+
+
+        void HandleMouseDrag()
+        {
+            Bounds selectBoxBounds = ResizeSelectionBox();
+            foreach (AbstractUnit unit in aliveUnits)
+            {
+                Vector2 unitPosition = camera.WorldToScreenPoint(unit.transform.position);
+
+                if (selectBoxBounds.Contains(unitPosition))
+                {
+                    addedUnits.Add(unit);
+                }
+            }
+        }
+
+
+        void HandleMouseUp()
+        {
+            if (Keyboard.current.shiftKey.isPressed == false)
+            {
+                DeselectAllUnits();
+            }
+
+            HandleLeftClick();
+
+            foreach (AbstractUnit unit in addedUnits)
+            {
+                unit.Select();
+            }
+
+            selectionBox.gameObject.SetActive(false);
         }
 
 
@@ -158,23 +181,15 @@ namespace GameDevTV.RTS.Player
 
         void HandleLeftClick()
         {
-            //if (camera == null) { return; }
+            if (camera == null) { return; }
 
-            //Ray cameraRay = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            Ray cameraRay = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-            //if (Mouse.current.leftButton.wasReleasedThisFrame)
-            //{
-            //    if (selectedUnit != null)
-            //    {
-            //        selectedUnit.Deselect();
-            //    }
-
-            //    if (Physics.Raycast(cameraRay, out RaycastHit hit, float.MaxValue, selectableUnitsLayers)
-            //    && hit.collider.TryGetComponent(out ISelectable selectable))
-            //    {
-            //        selectable.Select();
-            //    }
-            //} 
+            if (Physics.Raycast(cameraRay, out RaycastHit hit, float.MaxValue, selectableUnitsLayers)
+            && hit.collider.TryGetComponent(out ISelectable selectable))
+            {
+                selectable.Select();
+            }
         }
 
 
