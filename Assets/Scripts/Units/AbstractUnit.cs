@@ -2,15 +2,13 @@ using GameDevTV.RTS.EventBus;
 using GameDevTV.RTS.Events;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering.Universal;
 
 
 namespace GameDevTV.RTS.Units
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public abstract class AbstractUnit : MonoBehaviour, ISelectable, IMovable
+    public abstract class AbstractUnit : AbstractCommandable, IMovable
     {
-        [SerializeField] DecalProjector decalProjector;
         public float AgentRadius => agent.radius;
 
         NavMeshAgent agent;
@@ -24,28 +22,6 @@ namespace GameDevTV.RTS.Units
         void Start()
         {
             Bus<UnitSpawnEvent>.Raise(new UnitSpawnEvent(this));
-        }
-
-
-        public void Deselect()
-        {
-            if (decalProjector != null)
-            {
-                decalProjector.gameObject.SetActive(false);
-            }
-
-            Bus<UnitDeselectedEvent>.Raise(new UnitDeselectedEvent(this));
-        }
-
-
-        public void Select()
-        {
-            if (decalProjector != null)
-            {
-                decalProjector.gameObject.SetActive(true);
-            }
-
-            Bus<UnitSelectedEvent>.Raise(new UnitSelectedEvent(this));
         }
 
 
