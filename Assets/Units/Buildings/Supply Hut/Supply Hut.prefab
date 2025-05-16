@@ -101,11 +101,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6964012305514025925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f08adcf8307cba54980e228d80035473, type: 3}
+  m_Script: {fileID: 11500000, guid: f33ae938d92a71e44b5cea0c5962afbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   decalProjector: {fileID: 7557985916088275653}
-  unit: {fileID: 11400000, guid: f526f6183d37e7442bfa9368134c302d, type: 2}
+  unitSO: {fileID: 11400000, guid: f526f6183d37e7442bfa9368134c302d, type: 2}
   <CurrentHealth>k__BackingField: 0
   <MaxHealth>k__BackingField: 0
 --- !u!65 &2422821575361291847
