@@ -1,3 +1,4 @@
+using GameDevTV.RTS.Commands;
 using GameDevTV.RTS.EventBus;
 using GameDevTV.RTS.Events;
 using GameDevTV.RTS.Units;
@@ -183,22 +184,30 @@ namespace GameDevTV.RTS.Player
 
                 foreach (AbstractUnit unit in abstractUnits)
                 {
-                    Vector3 targetPosition = new(
-                        hit.point.x + circleRadius * Mathf.Cos(radialOffset * unitsOnLayer),
-                        hit.point.y,
-                        hit.point.z + circleRadius * Mathf.Sin(radialOffset * unitsOnLayer)
-                        );
-
-                    unit.MoveTo(targetPosition);
-                    unitsOnLayer++;
-
-                    if (unitsOnLayer >= maxUnitsOnLayer)
+                    foreach (ICommand command in unit.AvailableCommands)
                     {
-                        unitsOnLayer = 0;
-                        circleRadius += unit.AgentRadius * 3.5f;
-                        maxUnitsOnLayer = Mathf.FloorToInt(2 * Mathf.PI * circleRadius / (unit.AgentRadius * 2));
-                        radialOffset = 2 * Mathf.PI / maxUnitsOnLayer;
+                        if (command.CanHandle(unit, hit))
+                        {
+                            command.Handle(unit, hit);
+                        }
                     }
+
+                    //Vector3 targetPosition = new(
+                    //    hit.point.x + circleRadius * Mathf.Cos(radialOffset * unitsOnLayer),
+                    //    hit.point.y,
+                    //    hit.point.z + circleRadius * Mathf.Sin(radialOffset * unitsOnLayer)
+                    //    );
+
+                    //unit.MoveTo(targetPosition);
+                    //unitsOnLayer++;
+
+                    //if (unitsOnLayer >= maxUnitsOnLayer)
+                    //{
+                    //    unitsOnLayer = 0;
+                    //    circleRadius += unit.AgentRadius * 3.5f;
+                    //    maxUnitsOnLayer = Mathf.FloorToInt(2 * Mathf.PI * circleRadius / (unit.AgentRadius * 2));
+                    //    radialOffset = 2 * Mathf.PI / maxUnitsOnLayer;
+                    //}
                 }
 
                 //foreach (ISelectable selectable in selectedUnits)
