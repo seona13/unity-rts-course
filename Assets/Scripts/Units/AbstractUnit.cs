@@ -11,6 +11,7 @@ namespace GameDevTV.RTS.Units
     public abstract class AbstractUnit : MonoBehaviour, ISelectable, IMovable
     {
         [SerializeField] DecalProjector decalProjector;
+        public float AgentRadius => agent.radius;
 
         NavMeshAgent agent;
 
