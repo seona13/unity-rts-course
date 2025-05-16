@@ -6,11 +6,23 @@ using UnityEngine.Rendering.Universal;
 
 namespace GameDevTV.RTS.Units
 {
-
     public abstract class AbstractCommandable : MonoBehaviour, ISelectable
     {
         [SerializeField] DecalProjector decalProjector;
-        [field: SerializeField] public int Health { get; private set; }
+        [SerializeField] UnitSO unitSO;
+
+        [field: SerializeField] public int CurrentHealth { get; private set; }
+        [field: SerializeField] public int MaxHealth { get; private set; }
+
+
+        protected virtual void Start()
+        {
+            if (unitSO != null)
+            {
+                CurrentHealth = unitSO.Health;
+                MaxHealth = unitSO.Health;
+            }
+        }
 
 
         public void Deselect()

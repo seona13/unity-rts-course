@@ -19,8 +19,9 @@ namespace GameDevTV.RTS.Units
         }
 
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
             Bus<UnitSpawnEvent>.Raise(new UnitSpawnEvent(this));
         }
 

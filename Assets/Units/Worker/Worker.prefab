@@ -105,8 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22403f603c21b0c4a89b4c1a5caf63be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   decalProjector: {fileID: 6775240249574981609}
+  unitSO: {fileID: 11400000, guid: 91cd9409debce374c8f4ce3cba25fb8c, type: 2}
+  <CurrentHealth>k__BackingField: 0
+  <MaxHealth>k__BackingField: 0
 --- !u!95 &8980997614320244810
 Animator:
   serializedVersion: 7
