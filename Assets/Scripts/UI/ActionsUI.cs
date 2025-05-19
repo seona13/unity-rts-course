@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 namespace GameDevTV.RTS.UI
@@ -20,10 +21,14 @@ namespace GameDevTV.RTS.UI
         {
             Bus<UnitSelectedEvent>.OnEvent += HandleUnitSelected;
             Bus<UnitDeselectedEvent>.OnEvent += HandleUnitDeselected;
+        }
 
-            foreach (UIActionButton button in actionButtons)
+
+        private void Start()
+        {
+            foreach (UIActionButton actionButton in actionButtons)
             {
-                button.SetIcon(null);
+                actionButton.Disable();
             }
         }
 
@@ -69,13 +74,19 @@ namespace GameDevTV.RTS.UI
 
                 if (actionForSlot != null)
                 {
-                    actionButtons[i].SetIcon(actionForSlot.Icon);
+                    actionButtons[i].EnableFor(actionForSlot, HandleClick(actionForSlot));
                 }
                 else
                 {
-                    actionButtons[i].SetIcon(null);
+                    actionButtons[i].Disable();
                 }
             }
+        }
+
+
+        UnityAction HandleClick(ActionBase action)
+        {
+            return () => Bus<ActionSelectedEvent>.Raise(new ActionSelectedEvent(action));
         }
     }
 }
