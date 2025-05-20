@@ -66,7 +66,14 @@ namespace GameDevTV.RTS.Player
         void HandleUnitSelected(UnitSelectedEvent evt) => selectedUnits.Add(evt.Unit);
         void HandleUnitDeselected(UnitDeselectedEvent evt) => selectedUnits.Remove(evt.Unit);
         void HandleUnitSpawn(UnitSpawnEvent evt) => aliveUnits.Add(evt.Unit);
-        void HandleActionSelected(ActionSelectedEvent evt) => activeAction = evt.Action;
+        void HandleActionSelected(ActionSelectedEvent evt)
+        {
+            activeAction = evt.Action;
+            if (activeAction.RequiresClickToActivate == false)
+            {
+                ActivateAction(new RaycastHit());
+            }
+        }
 
 
         void Update()
@@ -222,18 +229,7 @@ namespace GameDevTV.RTS.Player
                 && EventSystem.current.IsPointerOverGameObject() == false
                 && Physics.Raycast(cameraRay, out hit, float.MaxValue, floorLayers))
             {
-                List<AbstractUnit> abstractUnits = selectedUnits
-                    .Where((unit) => unit is AbstractUnit)
-                    .Cast<AbstractUnit>()
-                    .ToList();
-
-                for (int i = 0; i < abstractUnits.Count; i++)
-                {
-                    CommandContext context = new(abstractUnits[i], hit, i);
-                    activeAction.Handle(context);
-                }
-
-                activeAction = null;
+                ActivateAction(hit);
             }
         }
 
@@ -396,6 +392,22 @@ namespace GameDevTV.RTS.Player
             }
 
             return moveAmount;
+        }
+    
+        void ActivateAction(RaycastHit hit)
+        {
+            List<AbstractCommandable> abstractCommandables = selectedUnits
+                .Where((unit) => unit is AbstractCommandable)
+                .Cast<AbstractCommandable>()
+                .ToList();
+
+            for (int i = 0; i < abstractCommandables.Count; i++)
+            {
+                CommandContext context = new(abstractCommandables[i], hit, i);
+                activeAction.Handle(context);
+            }
+
+            activeAction = null;
         }
     }
 }

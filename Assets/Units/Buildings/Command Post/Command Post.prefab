@@ -52,6 +52,8 @@ MonoBehaviour:
   unitSO: {fileID: 11400000, guid: 31a55a6f15d07b54f9d5eb90d9b3325c, type: 2}
   <CurrentHealth>k__BackingField: 0
   <MaxHealth>k__BackingField: 0
+  <AvailableCommands>k__BackingField:
+  - {fileID: 11400000, guid: f1f0782b5fcc38b47a79ad6eca18c314, type: 2}
 --- !u!65 &8954186936418030536
 BoxCollider:
   m_ObjectHideFlags: 0
