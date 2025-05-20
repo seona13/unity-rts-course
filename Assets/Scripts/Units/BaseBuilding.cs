@@ -9,6 +9,13 @@ namespace GameDevTV.RTS.Units
     {
         const int MAX_QUEUE_SIZE = 5;
 
+        public int QueueSize => buildingQueue.Count;
+        [field: SerializeField] public float CurrentQueueStartTime {  get; private set; }
+        [field: SerializeField] public UnitSO BuildingUnit { get; private set; }
+
+        public delegate void QueueUpdatedEvent(UnitSO[] unitsInQueue);
+        public event QueueUpdatedEvent OnQueueUpdated;
+
         Queue<UnitSO> buildingQueue = new(MAX_QUEUE_SIZE);
 
 
@@ -25,6 +32,10 @@ namespace GameDevTV.RTS.Units
             {
                 StartCoroutine(DoBuildUnits());
             }
+            else
+            {
+                OnQueueUpdated?.Invoke(buildingQueue.ToArray());
+            }
         }
 
 
@@ -32,12 +43,17 @@ namespace GameDevTV.RTS.Units
         {
             while (buildingQueue.Count > 0)
             {
-                UnitSO unit = buildingQueue.Peek();
-                yield return new WaitForSeconds(unit.BuildTime);
+                BuildingUnit = buildingQueue.Peek();
+                CurrentQueueStartTime = Time.time;
+                OnQueueUpdated?.Invoke(buildingQueue.ToArray());
 
-                Instantiate(unit.Prefab, transform.position, Quaternion.identity);
+                yield return new WaitForSeconds(BuildingUnit.BuildTime);
+
+                Instantiate(BuildingUnit.Prefab, transform.position, Quaternion.identity);
                 buildingQueue.Dequeue();
             }
+
+            OnQueueUpdated?.Invoke(buildingQueue.ToArray());
         }
     }
 }
