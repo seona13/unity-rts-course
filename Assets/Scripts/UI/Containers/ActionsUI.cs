@@ -1,30 +1,30 @@
 using GameDevTV.RTS.Commands;
 using GameDevTV.RTS.EventBus;
 using GameDevTV.RTS.Events;
+using GameDevTV.RTS.UI.Components;
 using GameDevTV.RTS.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.AppUI.UI;
 using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace GameDevTV.RTS.UI
+namespace GameDevTV.RTS.UI.Containers
 {
-    public class ActionsUI : MonoBehaviour
+    public class ActionsUI : MonoBehaviour, IUIElement<HashSet<AbstractCommandable>>
     {
         [SerializeField] UIActionButton[] actionButtons;
-        HashSet<AbstractCommandable> selectedUnits = new(12);
 
 
-        void Awake()
+        public void EnableFor(HashSet<AbstractCommandable> selectedUnits)
         {
-            Bus<UnitSelectedEvent>.OnEvent += HandleUnitSelected;
-            Bus<UnitDeselectedEvent>.OnEvent += HandleUnitDeselected;
+            RefreshButtons(selectedUnits);
         }
 
 
-        private void Start()
+        public void Disable()
         {
             foreach (UIActionButton actionButton in actionButtons)
             {
@@ -33,33 +33,7 @@ namespace GameDevTV.RTS.UI
         }
 
 
-        void OnDestroy()
-        {
-            Bus<UnitSelectedEvent>.OnEvent -= HandleUnitSelected;
-            Bus<UnitDeselectedEvent>.OnEvent -= HandleUnitDeselected;
-        }
-
-
-        void HandleUnitSelected(UnitSelectedEvent evt)
-        {
-            if (evt.Unit is AbstractCommandable commandable)
-            {
-                selectedUnits.Add(commandable);
-                RefreshButtons();
-            }
-        }
-
-        void HandleUnitDeselected(UnitDeselectedEvent evt)
-        {
-            if (evt.Unit is AbstractCommandable commandable)
-            {
-                selectedUnits.Remove(commandable);
-                RefreshButtons();
-            }
-        }
-
-
-        void RefreshButtons()
+        void RefreshButtons(HashSet<AbstractCommandable> selectedUnits)
         {
             HashSet<ActionBase> availableCommands = new(9);
 

@@ -5,10 +5,10 @@ using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 
-namespace GameDevTV.RTS.UI
+namespace GameDevTV.RTS.UI.Components
 {
     [RequireComponent(typeof(Button))]
-    public class UIActionButton : MonoBehaviour
+    public class UIActionButton : MonoBehaviour, IUIElement<ActionBase, UnityAction>
     {
         [SerializeField] Image icon;
 
