@@ -135,7 +135,7 @@ namespace GameDevTV.RTS.Player
 
         void HandleMouseUp()
         {
-            if (activeAction == null && Keyboard.current.shiftKey.isPressed == false)
+            if (wasMouseDownOnUI == false && activeAction == null && Keyboard.current.shiftKey.isPressed == false)
             {
                 DeselectAllUnits();
             }
