@@ -19,6 +19,7 @@ namespace GameDevTV.RTS.Units
         {
             agent = GetComponent<NavMeshAgent>();
             graphAgent = GetComponent<BehaviorGraphAgent>();
+            MoveTo(transform.position);
         }
 
 
@@ -26,6 +27,7 @@ namespace GameDevTV.RTS.Units
         {
             base.Start();
             Bus<UnitSpawnEvent>.Raise(new UnitSpawnEvent(this));
+            MoveTo(transform.position);
         }
 
 
