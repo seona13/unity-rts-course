@@ -18,6 +18,7 @@ namespace GameDevTV.RTS.UI.Components
         void Awake()
         {
             button = GetComponent<Button>();
+            Disable();
         }
 
 
