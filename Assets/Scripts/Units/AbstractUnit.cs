@@ -3,6 +3,7 @@ using GameDevTV.RTS.Events;
 using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 
 namespace GameDevTV.RTS.Units
@@ -19,7 +20,7 @@ namespace GameDevTV.RTS.Units
         {
             agent = GetComponent<NavMeshAgent>();
             graphAgent = GetComponent<BehaviorGraphAgent>();
-            MoveTo(transform.position);
+            graphAgent.SetVariableValue("Command", UnitCommands.Stop);
         }
 
 
@@ -27,13 +28,19 @@ namespace GameDevTV.RTS.Units
         {
             base.Start();
             Bus<UnitSpawnEvent>.Raise(new UnitSpawnEvent(this));
-            MoveTo(transform.position);
         }
 
 
         public void MoveTo(Vector3 position)
         {
             graphAgent.SetVariableValue("TargetLocation", position);
+            graphAgent.SetVariableValue("Command", UnitCommands.Move);
+        }
+
+
+        public void Stop()
+        {
+            graphAgent.SetVariableValue("Command", UnitCommands.Stop);
         }
     }
 }
