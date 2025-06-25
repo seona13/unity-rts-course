@@ -7,6 +7,7 @@ namespace GameDevTV.RTS.Units
     public enum UnitCommands
     {
         Stop,
-        Move
+        Move,
+        Gather
     }
 }

@@ -14,7 +14,7 @@ namespace GameDevTV.RTS.Units
         public float AgentRadius => agent.radius;
 
         NavMeshAgent agent;
-        BehaviorGraphAgent graphAgent;
+        protected BehaviorGraphAgent graphAgent;
 
         void Awake()
         {

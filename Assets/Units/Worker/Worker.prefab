@@ -113,6 +113,7 @@ MonoBehaviour:
   <AvailableCommands>k__BackingField:
   - {fileID: 11400000, guid: 6143f0c606d4b1d449b6f27fcbeadd8f, type: 2}
   - {fileID: 11400000, guid: fe3a3060f342fee459fec536ab806177, type: 2}
+  - {fileID: 11400000, guid: 696d99b2d098533479e7f03d95709e9c, type: 2}
 --- !u!95 &8980997614320244810
 Animator:
   serializedVersion: 7
