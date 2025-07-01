@@ -107,13 +107,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decalProjector: {fileID: 6775240249574981609}
-  unitSO: {fileID: 11400000, guid: 91cd9409debce374c8f4ce3cba25fb8c, type: 2}
   <CurrentHealth>k__BackingField: 0
   <MaxHealth>k__BackingField: 0
   <AvailableCommands>k__BackingField:
   - {fileID: 11400000, guid: 6143f0c606d4b1d449b6f27fcbeadd8f, type: 2}
   - {fileID: 11400000, guid: fe3a3060f342fee459fec536ab806177, type: 2}
   - {fileID: 11400000, guid: 696d99b2d098533479e7f03d95709e9c, type: 2}
+  <UnitSO>k__BackingField: {fileID: 11400000, guid: 91cd9409debce374c8f4ce3cba25fb8c, type: 2}
 --- !u!95 &8980997614320244810
 Animator:
   serializedVersion: 7

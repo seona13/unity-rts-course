@@ -105,9 +105,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   decalProjector: {fileID: 7557985916088275653}
-  unitSO: {fileID: 11400000, guid: f526f6183d37e7442bfa9368134c302d, type: 2}
   <CurrentHealth>k__BackingField: 0
   <MaxHealth>k__BackingField: 0
+  <AvailableCommands>k__BackingField: []
+  <UnitSO>k__BackingField: {fileID: 11400000, guid: f526f6183d37e7442bfa9368134c302d, type: 2}
+  <CurrentQueueStartTime>k__BackingField: 0
+  <BuildingUnit>k__BackingField: {fileID: 0}
 --- !u!65 &2422821575361291847
 BoxCollider:
   m_ObjectHideFlags: 0

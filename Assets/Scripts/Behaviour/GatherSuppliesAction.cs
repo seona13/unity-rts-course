@@ -32,7 +32,7 @@ namespace GameDevTV.RTS.Behaviour
         {
             if (GatherableSupplies.Value.Supply.BaseGatherTime + enterTime <= Time.time)
             {
-                int amountGathered = GatherableSupplies.Value.EndGather();
+                Amount.Value = GatherableSupplies.Value.EndGather();
                 return Status.Success;
             }
             return Status.Running;

@@ -10,19 +10,19 @@ namespace GameDevTV.RTS.Units
     public abstract class AbstractCommandable : MonoBehaviour, ISelectable
     {
         [SerializeField] DecalProjector decalProjector;
-        [SerializeField] UnitSO unitSO;
 
         [field: SerializeField] public int CurrentHealth { get; private set; }
         [field: SerializeField] public int MaxHealth { get; private set; }
         [field: SerializeField] public ActionBase[] AvailableCommands { get; private set; }
+        [field: SerializeField] public UnitSO UnitSO { get; private set; }
 
 
         protected virtual void Start()
         {
-            if (unitSO != null)
+            if (UnitSO != null)
             {
-                CurrentHealth = unitSO.Health;
-                MaxHealth = unitSO.Health;
+                CurrentHealth = UnitSO.Health;
+                MaxHealth = UnitSO.Health;
             }
         }
 
